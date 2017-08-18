@@ -1,0 +1,15 @@
+<h1> Welcome, <%= @user.name %> </h1>
+
+<h3>Your Mood is currently: <%= @user.mood %> </h3>
+
+<%= show_admin(@user) %>
+
+<% @user.attributes.each do |k, v| %>
+  <% if k != "password_digest" && k != "name" && k != "admin" && k != "id" %>
+    <h4><%= "#{k.capitalize}: #{v}" %></h4>
+  <% end %>
+<% end %>
+
+<%= link_to "See attractions", attractions_path %>
+
+<%= link_to 'Log Out', logout_path %>

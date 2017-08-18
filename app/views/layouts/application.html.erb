@@ -31,6 +31,7 @@
 
     <!-- content -->
     <div class="container"  role="main">
+      <%= flash[:alert] if flash[:alert] %>
       <%= yield %>
     </div>
 
