@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :find_user, only: [:show]
+  before_action :find_user, only: [:show, :edit, :update]
 
   def new
     @user = User.new
@@ -11,12 +11,16 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to @user
     else
-      render :new
+      render :new, alert: "Something went wrong, please try again"
     end
   end
 
   def show
     redirect_to root_path unless current_user
+  end
+
+  def edit
+    redirect_to current_user, alert: "Must be an Admin to edit user" unless current_user.admin
   end
 
   private

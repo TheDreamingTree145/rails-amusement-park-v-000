@@ -22,21 +22,16 @@ class AttractionsController < ApplicationController
 
   def ride
     @attraction = Attraction.find(params[:attraction][:id])
-    if current_user.not_enough_tickets(@attraction) && current_user.not_tall_enough(@attraction)
-      redirect_to current_user, alert: "You are not tall enough to ride the #{@attraction.name}. You do not have enough tickets to ride the #{@attraction.name}"
-    elsif current_user.not_tall_enough(@attraction)
-      redirect_to current_user, alert: "You are not tall enough to ride the #{@attraction.name}"
-    elsif
-      current_user.not_enough_tickets(@attraction)
-      redirect_to current_user, alert: "You do not have enough tickets to ride the #{@attraction.name}"
-    else
-      current_user.go_on_ride(@attraction)
+    @ride = Ride.create(user_id: current_user.id, attraction_id: @attraction.id)
+    if @ride.take_ride == nil
       redirect_to current_user, alert: "Thanks for riding the #{@attraction.name}!"
+    else
+      redirect_to current_user, alert: "#{@ride.take_ride}"
     end
   end
 
   def edit
-    
+    redirect_to current_user, alert: "Must be an Admin to edit attraction" unless current_user.admin
   end
 
   def update
